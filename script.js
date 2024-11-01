@@ -137,7 +137,7 @@ class Character{
     }
 
     resetPosition(){
-        console.log(this.speed)
+        // console.log(this.speed)
         switch(spriteSheetLoop[this.action].name){
             case 'down':
                 if( this.position.y > canvas.height + this.playerHeight  )
