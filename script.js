@@ -1,7 +1,7 @@
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
+canvas.height = window.outerHeight;
+canvas.width = window.outerWidth;
 
 const Game = {};
 let temp;
@@ -69,16 +69,21 @@ class Character{
         this.animationSpeed = Math.round(Math.random()*4);
         // console.log(this.animationSpeed)
         this.skippedframe = 0;
-        this.scale = 4;
+        this.scale = 1;
         this.action = Math.floor(Math.random()*spriteSheetLoop.length);
         this.frameX = spriteSheetLoop[this.action].start;
-        this.speed = getRndInteger(10, 25) - this.animationSpeed*Math.round(Math.random()*10)/10 + 0.1;
+        this.speed = this.randomSpeed();
         this.frameY = 0;
         this.freeze = false;
 
         this.position =  {x:0, y:0};
         this.position = this.getPositionFromAction();
     }
+
+    randomSpeed(){
+        return this.speed = this.speed = getRndInteger(5, 10) - this.animationSpeed*Math.round(Math.random()*10)/10 + 0.1;
+    }
+
     draw(){
         this.collisionPos = {
             x: this.position.x + this.playerWidth*this.scale/2.5,
@@ -132,6 +137,7 @@ class Character{
     }
 
     resetPosition(){
+        console.log(this.speed)
         switch(spriteSheetLoop[this.action].name){
             case 'down':
                 if( this.position.y > canvas.height + this.playerHeight  )
@@ -170,8 +176,9 @@ class Character{
             this.skippedframe = 0;
             this.action = Math.floor(Math.random()*spriteSheetLoop.length);
             this.frameX = spriteSheetLoop[this.action].start;
-            this.speed = getRndInteger(10, 25) - this.animationSpeed*Math.round(Math.random()*10)/10 + 0.1;
+            this.speed = this.randomSpeed();
             this.freeze = false;
+
 
             this.position =  {x:0, y:0};
             this.position = this.getPositionFromAction();
@@ -274,7 +281,7 @@ function drawSprite(img, sx, sy, sw, sh, dx, dy,dw,dh) {
 function drawRec(x, y, w, h){
     ctx.beginPath();
     ctx.strokeStyle = "red";
-    ctx.lineWidth = "6";
+    ctx.lineWidth = "2";
     // ctx.rect(dx + dw/4, dy + dh/4, dw/2, dh/2);
     ctx.rect(x, y, w, h);
     ctx.stroke();
